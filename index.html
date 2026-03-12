@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ukuw — Projects</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --border: #1f1f1f;
+      --accent: #ffffff;
+      --muted: #555;
+      --text: #e0e0e0;
+      --tag-bg: #1a1a1a;
+      --tag-color: #888;
+      --hover: #1c1c1c;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      min-height: 100vh;
+      padding: 0 1.5rem 4rem;
+    }
+
+    header {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header .handle {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    header a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    header a:hover { color: var(--accent); }
+
+    .section-label {
+      max-width: 760px;
+      margin: 2.5rem auto 1rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    #grid {
+      max-width: 760px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--border);
+    }
+
+    .card {
+      background: var(--surface);
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .card:hover { background: var(--hover); }
+
+    .card-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-name svg {
+      width: 13px;
+      height: 13px;
+      opacity: 0.35;
+      flex-shrink: 0;
+    }
+
+    .card-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 0.3rem;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.55rem;
+      background: var(--tag-bg);
+      color: var(--tag-color);
+      border-radius: 3px;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border);
+    }
+
+    .tag.lang { color: #7ec8e3; border-color: #1a2e35; background: #0d1e24; }
+    .tag.license { color: #a8e6a3; border-color: #1a2e1a; background: #0d1e0d; }
+
+    .stars {
+      font-size: 0.68rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .updated {
+      font-size: 0.65rem;
+      color: #333;
+      margin-left: auto;
+    }
+
+    #loading, #error {
+      max-width: 760px;
+      margin: 3rem auto;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    #error { color: #c0392b; }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--hover) 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 3px;
+      height: 0.8rem;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    footer {
+      max-width: 760px;
+      margin: 3rem auto 0;
+      font-size: 0.65rem;
+      color: #2a2a2a;
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      #grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="handle">github.com/ukuw</div>
+    <h1>ukuw</h1>
+    <p>A collection of personal projects. Source on <a href="https://github.com/ukuw" target="_blank" rel="noopener">GitHub ↗</a></p>
+  </header>
+
+  <div class="section-label">Projects</div>
+
+  <div id="loading">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;border:1px solid #1f1f1f;max-width:760px;">
+      <div style="padding:1.4rem 1.5rem;background:#141414;display:flex;flex-direction:column;gap:0.7rem;">
+        <div class="skeleton" style="width:40%;"></div>
+        <div class="skeleton" style="width:80%;"></div>
+        <div class="skeleton" style="width:60%;"></div>
+      </div>
+      <div style="padding:1.4rem 1.5rem;background:#141414;display:flex;flex-direction:column;gap:0.7rem;">
+        <div class="skeleton" style="width:55%;"></div>
+        <div class="skeleton" style="width:70%;"></div>
+        <div class="skeleton" style="width:45%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="grid" style="display:none;"></div>
+  <div id="error" style="display:none;"></div>
+
+  <footer>
+    Powered by GitHub API · Auto-updates with new repos
+  </footer>
+
+  <script>
+    const USERNAME = 'ukuw';
+    const SKIP = ['ukuw.github.io'];
+
+    const arrowIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>`;
+
+    function timeAgo(dateStr) {
+      const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
+      if (diff < 60) return 'just now';
+      if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+      if (diff < 2592000) return `${Math.floor(diff/86400)}d ago`;
+      return new Date(dateStr).toLocaleDateString('en', { month: 'short', year: 'numeric' });
+    }
+
+    async function loadRepos() {
+      const grid = document.getElementById('grid');
+      const loading = document.getElementById('loading');
+      const error = document.getElementById('error');
+
+      try {
+        const res = await fetch(`https://api.github.com/users/${USERNAME}/repos?per_page=100&sort=updated`);
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+        const repos = await res.json();
+
+        loading.style.display = 'none';
+
+        const filtered = repos.filter(r => !SKIP.includes(r.name) && !r.fork);
+
+        if (filtered.length === 0) {
+          grid.style.display = 'none';
+          error.style.display = 'block';
+          error.textContent = 'No public repositories found.';
+          return;
+        }
+
+        filtered.forEach(repo => {
+          const card = document.createElement('a');
+          card.className = 'card';
+          card.href = repo.html_url;
+          card.target = '_blank';
+          card.rel = 'noopener';
+
+          const desc = repo.description
+            ? `<div class="card-desc">${repo.description}</div>`
+            : `<div class="card-desc" style="color:#2a2a2a;font-style:italic;">No description</div>`;
+
+          const langTag = repo.language
+            ? `<span class="tag lang">${repo.language}</span>`
+            : '';
+
+          const licenseTag = repo.license
+            ? `<span class="tag license">${repo.license.spdx_id}</span>`
+            : '';
+
+          const stars = repo.stargazers_count > 0
+            ? `<span class="stars">★ ${repo.stargazers_count}</span>`
+            : '';
+
+          card.innerHTML = `
+            <div class="card-name">${arrowIcon}${repo.name}</div>
+            ${desc}
+            <div class="card-meta">
+              ${langTag}
+              ${licenseTag}
+              ${stars}
+              <span class="updated">${timeAgo(repo.pushed_at)}</span>
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+
+        grid.style.display = 'grid';
+
+      } catch (err) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        error.textContent = `Failed to load repositories: ${err.message}`;
+      }
+    }
+
+    loadRepos();
+  </script>
+</body>
+</html>
